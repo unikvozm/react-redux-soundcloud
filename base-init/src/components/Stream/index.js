@@ -14,9 +14,9 @@ const StreamContainer = observer(() => {
       activeTrack={trackStore.activeTrack}
       clientId={CLIENT_ID}
       onAuth={auth}
-      onPlay={track => (trackStore.activeTrack = track)}
+      onPlay={track => (trackStore.activeTrackId = track.origin.id)}
     />
   );
-})
+});
 
 export default StreamContainer;
