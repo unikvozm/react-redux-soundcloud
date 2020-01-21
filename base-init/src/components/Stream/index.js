@@ -1,24 +1,22 @@
-import React from 'react';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import * as actions from '../../actions';
-import Stream from './presenter';
+import React from "react";
+import { observer } from "mobx-react";
+import Stream from "./presenter";
+import { CLIENT_ID } from "../../constants/auth";
+import { auth } from "../../actions/auth";
+import userStore from "../../stores/userStore";
+import trackStore from "../../stores/trackStore";
 
-function mapStateToProps(state) {
-  const { user } = state.auth;
-  const { tracks, activeTrack } = state.track;
-  return {
-    user,
-    tracks,
-    activeTrack
-  }
-}
+const StreamContainer = observer(() => {
+  return (
+    <Stream
+      me={userStore.me}
+      tracks={trackStore.tracks}
+      activeTrack={trackStore.activeTrack}
+      clientId={CLIENT_ID}
+      onAuth={auth}
+      onPlay={track => (trackStore.activeTrack = track)}
+    />
+  );
+})
 
-function mapDispatchToProps(dispatch) {
-  return {
-    onPlay: bindActionCreators(actions.playTrack, dispatch),
-    onAuth: bindActionCreators(actions.auth, dispatch)
-  };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Stream);
+export default StreamContainer;
