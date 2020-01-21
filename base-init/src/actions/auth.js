@@ -13,7 +13,7 @@ function fetchMe(session) {
   fetch(`//api.soundcloud.com/me?oauth_token=${session.oauth_token}`)
     .then(response => response.json())
     .then(me => {
-      userStore.me = me;
+      userStore.setMe(me);
     });
 }
 
@@ -23,6 +23,6 @@ function fetchStream(session) {
   )
     .then(response => response.json())
     .then(data => {
-      trackStore.tracks = data.collection;
+      trackStore.setTracks(data.collection);
     });
 }
