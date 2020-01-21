@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import { CLIENT_ID } from '../../constants/auth';
+import { observer } from 'mobx-react';
 
+@observer
 class Stream extends Component {
 
   componentDidUpdate() {
@@ -9,9 +10,7 @@ class Stream extends Component {
 
     if (!audioElement) { return; }
 
-    const { activeTrack } = this.props;
-
-    if (activeTrack) {
+    if (this.props.activeTrack) {
       audioElement.play();
     } else {
       audioElement.pause();
@@ -19,14 +18,14 @@ class Stream extends Component {
   }
 
   render() {
-    const { user, tracks = [], activeTrack, onAuth, onPlay } = this.props;
+    const { me, tracks, activeTrack, clientId, onAuth, onPlay } = this.props;
 
     return (
       <div>
         <div>
           {
-            user ?
-              <div>{user.username}</div> :
+            me ?
+              <div>{me.username}</div> :
               <button onClick={onAuth} type="button">Login</button>
           }
         </div>
